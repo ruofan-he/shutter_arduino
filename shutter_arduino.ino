@@ -14,7 +14,7 @@ int split(const String data,const char delimiter,String *dst){
     for (int i = 0; i < datalength; i++) {
         char tmp = data.charAt(i);
         if ( tmp == delimiter ) {
-            index++;
+            if (dst[index].length()) index++;
             if ( index > (arraySize - 1)) return -1;
         }
         else dst[index] += tmp;
@@ -54,7 +54,7 @@ void check_switch(const int id) {
     servo_manual_con[id] = 1;
     mode_changed = true;
   }
-  if(servo_manual_con[id] && mode_changed){
+  if(servo_manual_con[id] && (mode_changed || switch_mode[id] != servo_mode[id])){
     if (switch_mode[id] == LOW)servo_close(id);
     else servo_open(id);
 
@@ -96,6 +96,10 @@ void operation_manage(const String cmd, const String target){
     remote_control(cmd, target);
     return;
   }
+  if(cmd == "set_to_switch"){
+
+    return;
+  }
 }
 
 void read_switch_mode(){
@@ -129,6 +133,17 @@ void remote_control(const String cmd, const String target){
       servo_mode[id] = 0;
       servo_close(id);
     }
+  }
+}
+
+void switch_control(const String target){
+  String target_div[10];
+  int target_div_num = split(target, ' ', target_div);
+  for(int i=0; i< target_div_num; i++){
+    auto id =target_div[i].toInt();
+    if(id <0 || id >=servo_num) continue;
+    servo_manual_con[id] = 1;
+    check_switch(id);
   }
 }
 
