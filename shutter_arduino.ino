@@ -65,14 +65,13 @@ void check_switch(const int id) {
 
 void serialEvent(){
   if (Serial.available() > 0){
-    String buffer = Serial.readStringUntil('@');
-    String lines[64];
+    String buffer = Serial.readStringUntil('\n');
+    String lines[10];
     int lines_num = split(buffer, ';', lines);
     for(int i=0; i< lines_num; i++){
-      Serial.println("w" + lines[i].length());
-      String line_div[64];
+      String line_div[10];
       int line_div_num = split(lines[i], ':', line_div);
-      if(line_div_num>1){
+      if(line_div_num>2){
         Serial.println("syntax error: "+lines[i]);
         continue;
       }
@@ -102,7 +101,7 @@ void operation_manage(const String cmd, const String target){
 void read_switch_mode(){
   String buffer = "";
   for(int i=0;i<servo_num; i++){
-    buffer += switch_mode[i] + " ";
+    buffer += String(switch_mode[i]) + " ";
   }
   Serial.println(buffer);
 }
@@ -110,13 +109,13 @@ void read_switch_mode(){
 void read_servo_mode(){
   String buffer = "";
   for(int i=0;i<servo_num; i++){
-    buffer += servo_mode[i] + " ";
+    buffer += String(servo_mode[i]) + " ";
   }
   Serial.println(buffer);
 }
 
 void remote_control(const String cmd, const String target){
-  String target_div[64];
+  String target_div[10];
   int target_div_num = split(target, ' ', target_div);
   for(int i=0; i< target_div_num; i++){
     auto id =target_div[i].toInt();
