@@ -97,7 +97,7 @@ void operation_manage(const String cmd, const String target){
     return;
   }
   if(cmd == "set_to_switch"){
-
+    switch_control(target);
     return;
   }
 }
