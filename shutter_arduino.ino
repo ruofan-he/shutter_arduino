@@ -29,6 +29,7 @@ int switch_pin[]    = {7,8,9,10};
 int switch_mode[4] = {2,2,2,2}; //mode: 0 off, 1 on, 2 初期化前
 int servo_mode[4] = {0,0,0,0}; //mode: 0 off, 1 on
 int servo_manual_con[] = {1,1,1,1};
+String serial_number = "test_serial";
 
 void setup() {
   Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
@@ -100,6 +101,10 @@ void operation_manage(const String cmd, const String target){
     switch_control(target);
     return;
   }
+  if(cmd == "read_serial_num"){
+    read_serial_num();
+    return;
+  }
 }
 
 void read_switch_mode(){
@@ -153,4 +158,8 @@ void servo_open(const int id){
 
 void servo_close(const int id){
   servo_handler[id].write(0);
+}
+
+void read_serial_num(){
+  Serial.println(serial_number);
 }
