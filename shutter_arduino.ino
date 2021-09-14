@@ -1,11 +1,12 @@
+// Optical Shutter System
+// MS18 * 5
+// 2021/5/20 M. Endo: initial code
+// 2021/9/14 Ruofan He: serial communication
+// Arduino nano
+
+
+
 #include "Servo.h"
-
-/////////////////////////
-// 結論
-// arduino nanoは割り込みピンは2本のみ
-// 割り込みによって制御することはできない
-/////////////////////////
-
 
 int split(const String data,const char delimiter,String *dst){
     int index = 0;
